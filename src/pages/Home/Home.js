@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Home.css";
 import { CoinContext } from "../../context/CoinContext";
+import { Link } from "react-router-dom";
 
 function Home() {
 
@@ -36,7 +37,12 @@ function Home() {
           explore more about cryptos.
         </p>
         <form onSubmit={searchHandler}>
-          <input onChange={inputHandler} value={input} type="text" placeholder="Search crypto.." required />
+          <input onChange={inputHandler} list='coinlist' value={input} type="text" placeholder="Search crypto.." required />
+
+          <datalist id='coinlist'>
+            {allCoin.map((item,index)=>(<option key={index} value={item.name}/>))}
+          </datalist>
+
           <button type="submit">Search</button>
         </form>
       </div>
@@ -49,7 +55,7 @@ function Home() {
           <p className="market-cap">Market Cap</p>
         </div>
         {displayCoin.slice(0, 10).map((item, index) => (
-          <div className="table-layout key={index}">
+          <Link to={ `/coin/${item.id}`} className="table-layout key={index}">
             <p>{item.market_cap_rank}</p>
             <div>
               <img src={item.image} alt="" />
@@ -66,7 +72,7 @@ function Home() {
               {currency.symbol}
               {item.market_cap.toLocaleString()}
             </p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
